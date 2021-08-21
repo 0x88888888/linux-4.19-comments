@@ -345,8 +345,14 @@ static int dev_ifsioc(struct net *net, struct ifreq *ifr, unsigned int cmd)
  *	privileges this function loads the module. If module loading is not
  *	available in this kernel then it becomes a nop.
  */
+void dev_load(struct net *net, const char *name)
+{
+	struct net_device *dev;
+	int no_module;
 
-void dev_load(struct net *n
+	rcu_read_lock();
+	dev = dev_get_by_name_rcu(net, name);
+	rcu_read_unlock();
 
 	no_module = !dev;
 	if (no_module && capable(CAP_NET_ADMIN))
@@ -518,14 +524,6 @@ int dev_ioctl(struct net *net, unsigned int cmd, struct ifreq *ifr, bool *need_c
 			rtnl_unlock();
 			return ret;
 		}
-		return -E		return -ENOTTY;
-		return -ENOTTY;
-				rtnl_lock();
-			ret = dev_ifsioc(net, ifr, cmd);
-			rtnl_unlock();
-			return ret;
-		}
-		retu		return -		return -ENOTTY;
 		return -ENOTTY;
 	}
 }

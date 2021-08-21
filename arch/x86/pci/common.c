@@ -678,7 +678,24 @@ static void set_dma_domain_ops(struct pci_dev *pdev)
 	spin_unlock(&dma_domain_list_lock);
 }
 #else
-static void set_dma_domain_ops(struct pci_dev *pdev) {eof(*rom), MEMREMAP_WB);
+static void set_dma_domain_ops(struct pci_dev *pdev) {}
+#endif
+
+static void set_dev_domain_options(struct pci_dev *pdev)
+{
+	if (is_vmd(pdev->bus))
+		pdev->hotplug_user_indicators = 1;
+}
+
+int pcibios_add_device(struct pci_dev *dev)
+{
+	struct setup_data *data;
+	struct pci_setup_rom *rom;
+	u64 pa_data;
+
+	pa_data = boot_params.hdr.setup_data;
+	while (pa_data) {
+		data = memremap(pa_data, sizeof(*rom), MEMREMAP_WB);
 		if (!data)
 			return -ENOMEM;
 
@@ -703,6 +720,8 @@ static void set_dma_domain_ops(struct pci_dev *pdev) {eof(*rom), MEMREMAP_WB);
 	set_dev_domain_options(dev);
 	return 0;
 }
+
+
 
 int pcibios_enable_device(struct pci_dev *dev, int mask)
 {
@@ -731,33 +750,11 @@ void pcibios_release_device(struct pci_dev *dev)
 }
 #endif
 
-int pci_ext_cfg_avail(void)
-{
-	if (raw_pc	if (atomic_dec_return(&dev->enable_cnt) >= 0)
-		pcibios_disable_device(dev);
-
-}
-#endif
 
 int pci_ext_cfg_avail(void)
 {
 	if (raw_pci_ext_ops)
 		return 1;
 	else
-		return 		return 1;
-	else
-		return 0;		if (raw_pci_ext_ops)
-		return 1;
-	else
-		retur		return 1;
-	else
-		return 		return 1;
-	else
-		return 0;		if (raw_pci_ext_ops)
-		return 1;
-	else
-		r		return 1;
-	else
 		return 0;
-}
 }

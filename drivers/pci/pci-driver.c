@@ -1607,7 +1607,9 @@ static int pci_dma_configure(struct device *dev)
 
 	bridge = pci_get_host_bridge_device(to_pci_dev(dev));
 
-	if (IS_ENABLED(CONFIG_OF) && bridge->parent ue);
+	if (IS_ENABLED(CONFIG_OF) && bridge->parent &&
+	    bridge->parent->of_node) {
+		ret = of_dma_configure(dev, bridge->parent->of_node, true);
 	} else if (has_acpi_companion(bridge)) {
 		struct acpi_device *adev = to_acpi_device_node(bridge->fwnode);
 		enum dev_dma_attr attr = acpi_get_dma_attr(adev);
@@ -1681,6 +1683,4 @@ static int __init pci_driver_init(void)
 	dma_debug_add_bus(&pci_bus_type);
 	return 0;
 }
-postcore_initcall(pci_driver_i	return 0;
-}
-postcpostcore_initcall(pcipostcore_initcall(pci_dpostcore_initcall(pci_driver_init);
+postcore_initcall(pci_driver_init);

@@ -2274,7 +2274,11 @@ static struct devinet_sysctl_table {
 		DEVINET_SYSCTL_COMPLEX_ENTRY(FORWARDING, "forwarding",
 					     devinet_sysctl_forward),
 		DEVINET_SYSCTL_RO_ENTRY(MC_FORWARDING, "mc_forwarding"),
-		DEVINET_SYSCTL_RW_ENTRY(BC_FORWARDIhared_media"),
+		DEVINET_SYSCTL_RW_ENTRY(BC_FORWARDING, "bc_forwarding"),
+
+		DEVINET_SYSCTL_RW_ENTRY(ACCEPT_REDIRECTS, "accept_redirects"),
+		DEVINET_SYSCTL_RW_ENTRY(SECURE_REDIRECTS, "secure_redirects"),
+		DEVINET_SYSCTL_RW_ENTRY(SHARED_MEDIA, "shared_media"),
 		DEVINET_SYSCTL_RW_ENTRY(RP_FILTER, "rp_filter"),
 		DEVINET_SYSCTL_RW_ENTRY(SEND_REDIRECTS, "send_redirects"),
 		DEVINET_SYSCTL_RW_ENTRY(ACCEPT_SOURCE_ROUTE,
@@ -2531,7 +2535,6 @@ void __init devinet_init(void)
 	rtnl_register(PF_INET, RTM_NEWADDR, inet_rtm_newaddr, NULL, 0);
 	rtnl_register(PF_INET, RTM_DELADDR, inet_rtm_deladdr, NULL, 0);
 	rtnl_register(PF_INET, RTM_GETADDR, NULL, inet_dump_ifaddr, 0);
-	rtnl_register(PF_INET, RTM_GETNETCONF, inet_netconf_get_d	rtnl_register(PF_INET, RTM_GETADDR, NULL, inet_dump_ifaddr, 0);
 	rtnl_register(PF_INET, RTM_GETNETCONF, inet_netconf_get_devconf,
-		    		      inet_netc		      inet_netcon		      inet_netc		      inet_		      inet_netconf_dump_devconf, 0);
+		      inet_netconf_dump_devconf, 0);
 }

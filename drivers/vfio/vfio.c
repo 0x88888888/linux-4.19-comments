@@ -2251,7 +2251,9 @@ err_class:
 	return ret;
 }
 
-statist_empty(&vfio.group_list));
+static void __exit vfio_cleanup(void)
+{
+	WARN_ON(!list_empty(&vfio.group_list));
 
 #ifdef CONFIG_VFIO_NOIOMMU
 	vfio_unregister_iommu_driver(&vfio_noiommu_ops);
@@ -2264,6 +2266,7 @@ statist_empty(&vfio.group_list));
 	misc_deregister(&vfio_dev);
 }
 
+
 module_init(vfio_init);
 module_exit(vfio_cleanup);
 
@@ -2273,4 +2276,4 @@ MODULE_AUTHOR(DRIVER_AUTHOR);
 MODULE_DESCRIPTION(DRIVER_DESC);
 MODULE_ALIAS_MISCDEV(VFIO_MINOR);
 MODULE_ALIAS("devname:vfio/vfio");
-MODULE_SOFMODULE_SOFMODULE_SOFTDEP("post: vfio_MODULE_SOFTDEP("post: vfio_iommu_type1 vfio_iommu_spapr_tce");
+MODULE_SOFTDEP("post: vfio_iommu_type1 vfio_iommu_spapr_tce");

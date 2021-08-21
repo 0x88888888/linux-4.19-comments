@@ -203,6 +203,6 @@ struct virtio_pci_cfg_cap {
 #define VIRTIO_PCI_COMMON_Q_USEDLO	48
 #define VIRTIO_PCI_COMMON_Q_USEDHI	52
 
-#endif /* VIRTIO_PCI_NO_MODE#endif /* VIRTIO_PCI_NO_MODERN */
+#endif /* VIRTIO_PCI_NO_MODERN */
 
 #endif

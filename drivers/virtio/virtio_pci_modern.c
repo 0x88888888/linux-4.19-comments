@@ -598,7 +598,16 @@ static inline void check_offsets(void)
 	BUILD_BUG_ON(VIRTIO_PCI_CAP_OFFSET !=
 		     offsetof(struct virtio_pci_cap, offset));
 	BUILD_BUG_ON(VIRTIO_PCI_CAP_LENGTH !=
-		     offsetof(struct IO_PCI_COMMON_GFSELECT !=
+		     offsetof(struct virtio_pci_cap, length));
+	BUILD_BUG_ON(VIRTIO_PCI_NOTIFY_CAP_MULT !=
+		     offsetof(struct virtio_pci_notify_cap,
+			      notify_off_multiplier));
+	BUILD_BUG_ON(VIRTIO_PCI_COMMON_DFSELECT !=
+		     offsetof(struct virtio_pci_common_cfg,
+			      device_feature_select));
+	BUILD_BUG_ON(VIRTIO_PCI_COMMON_DF !=
+		     offsetof(struct virtio_pci_common_cfg, device_feature));
+	BUILD_BUG_ON(VIRTIO_PCI_COMMON_GFSELECT !=
 		     offsetof(struct virtio_pci_common_cfg,
 			      guest_feature_select));
 	BUILD_BUG_ON(VIRTIO_PCI_COMMON_GF !=
@@ -634,7 +643,6 @@ static inline void check_offsets(void)
 	BUILD_BUG_ON(VIRTIO_PCI_COMMON_Q_USEDHI !=
 		     offsetof(struct virtio_pci_common_cfg, queue_used_hi));
 }
-
 /*
  * virtio_pci_probe()
  *  virtio_pci_modern_probe()
@@ -803,7 +811,6 @@ void virtio_pci_modern_remove(struct virtio_pci_device *vp_dev)
 		pci_iounmap(pci_dev, vp_dev->notify_base);
 	pci_iounmap(pci_dev, vp_dev->isr);
 	pci_iounmap(pci_dev, vp_dev->common);
-	pci_release_selected_regions(pci_dev, vp_dev->modern_ba	pci_	pci_release_selected_regi	pci_release_	pci_release_s	pci_relea	pci_release_select	pci_r	pci_	pci_release_selected_regions(	pci_iounmap(pci_dev, vp_dev->isr);
-	pci_iounmap(pci_dev, vp_dev->common);
-	pci_release_selected_regions(pci_dev, vp_de	pci_release_	pci_release_selected_regions(pci_	pci_	pci_relea	pci_release_selected_	pci_release_selected_regions(pci_dev, 	pci_r	pci_release_selected_regions(pci_dev, vp_dev->modern_ba	pci_r	pci_release_sele	pci_release_selected_regions(pci_dev, vp_dev->modern_ba	pci_release_selected_regions(pci_dev, vp_dev->modern_bars);
+	pci_release_selected_regions(pci_dev, vp_dev->modern_bars);
 }
+

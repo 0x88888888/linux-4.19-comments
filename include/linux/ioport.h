@@ -20,9 +20,6 @@ struct resource {
 	resource_size_t start;
 	resource_size_t end;
 	const char *name;
-	/*
-	 * __pci_read_base()调用decode_bar()来初始化flags
-	 */
 	unsigned long flags;
 	unsigned long desc;
 	struct resource *parent, *sibling, *child;
@@ -222,6 +219,7 @@ static inline bool resource_contains(struct resource *r1, struct resource *r2)
 /* Convenience shorthand with allocation */
 #define request_region(start,n,name)		__request_region(&ioport_resource, (start), (n), (name), 0)
 #define request_muxed_region(start,n,name)	__request_region(&ioport_resource, (start), (n), (name), IORESOURCE_MUXED)
+#define __request_mem_region(start,n,name, excl) __request_region(&iomem_resource, (start), (n), (name), excl)
 #define request_mem_region(start,n,name) __request_region(&iomem_resource, (start), (n), (name), 0)
 #define request_mem_region_exclusive(start,n,name) \
 	__request_region(&iomem_resource, (start), (n), (name), IORESOURCE_EXCLUSIVE)

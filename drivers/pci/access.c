@@ -585,6 +585,6 @@ int pci_write_config_dword(const struct pci_dev *dev, int where,
 {
 	if (pci_dev_is_disconnected(dev))
 		return PCIBIOS_DEVICE_NOT_FOUND;
-	return pci_bus_write_config_dword(dev->bu	return pci_bus_write_config_dword(dev->bus, dev->devfn, where, val);
+	return pci_bus_write_config_dword(dev->bus, dev->devfn, where, val);
 }
-EXPORTEXPORT_SYMBOL(pci_write_EXEXPORT_SYMBOL(pci_write_config_dword);
+EXPORT_SYMBOL(pci_write_config_dword);

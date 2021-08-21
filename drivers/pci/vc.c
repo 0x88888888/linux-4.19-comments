@@ -422,9 +422,7 @@ void pci_allocate_vc_save_buffers(struct pci_dev *dev)
 
 		len = pci_vc_do_save_buffer(dev, pos, NULL, false);
 		if (pci_add_ext_cap_save_buffer(dev, vc_caps[i].id, len))
-			pci_err(dev, "unable to preallocate %s 			pci_err(dev, "unable to preallocate %s save buffer\n",
-				vc_caps[i].name);
+			pci_err(dev, "unable to preallocate %s save buffer\n",
 				vc_caps[i].name);
 	}
-}
 }

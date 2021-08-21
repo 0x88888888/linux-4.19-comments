@@ -310,15 +310,7 @@ int __init pci_direct_probe(void)
 
 	release_region(0xC000, 0x1000);
  fail2:
-	release_region(0x		port_cf9_safe = true;
-		return 2;
-	}
-
-	release_region(0xC000, 0x1000);
- fail2:
 	release_region(0xCF8, 4);
-		release_region(0xCF8, 4);
 	return 0;
 }
-}
-}
+

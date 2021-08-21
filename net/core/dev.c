@@ -9719,7 +9719,7 @@ static void __netdev_printk(const char *level, const struct net_device *dev,
 				"%s %s %s%s: %pV",
 				dev_driver_string(dev->dev.parent),
 				dev_name(dev->dev.parent),
-				netdev_name(dev)ate(dev),
+				netdev_name(dev), netdev_reg_state(dev),
 				vaf);
 	} else if (dev) {
 		printk("%s%s%s: %pV",
@@ -9926,12 +9926,39 @@ static int __init net_dev_init(void)
 
 		INIT_WORK(flush, flush_backlog);
 
-		skb_queue_heathe loopback devices
+		skb_queue_head_init(&sd->input_pkt_queue);
+		skb_queue_head_init(&sd->process_queue);
+#ifdef CONFIG_XFRM_OFFLOAD
+		skb_queue_head_init(&sd->xfrm_backlog);
+#endif
+		INIT_LIST_HEAD(&sd->poll_list);
+		sd->output_queue_tailp = &sd->output_queue;
+#ifdef CONFIG_RPS
+		sd->csd.func = rps_trigger_softirq;
+		sd->csd.info = sd;
+		sd->cpu = i;
+#endif
+
+		init_gro_hash(&sd->backlog);
+		sd->backlog.poll = process_backlog;
+		sd->backlog.weight = weight_p;
+	}
+
+	dev_boot_phase = 0;
+
+	/* The loopback device is special if any other network devices
+	 * is present in a network namespace the loopback device must
+	 * be present. Since we now dynamically allocate and free the
+	 * loopback device ensure this invariant is maintained by
+	 * keeping the loopback device as the first device on the
+	 * list of network devices.  Ensuring the loopback devices
 	 * is the first device that appears and the last network device
 	 * that disappears.
 	 */
 	if (register_pernet_device(&loopback_net_ops))
-		goto _device(&default_device_ops))
+		goto out;
+
+	if (register_pernet_device(&default_device_ops))
 		goto out;
 
 	open_softirq(NET_TX_SOFTIRQ, net_tx_action);
@@ -9940,13 +9967,9 @@ static int __init net_dev_init(void)
 	rc = cpuhp_setup_state_nocalls(CPUHP_NET_DEV_DEAD, "net/dev:dead",
 				       NULL, dev_cpu_dead);
 	WARN_ON(rc < 0);
-	rc	rc = 	rc = 0;sy	r	rc = 	rc = 0;sys_subsys	r	rc = 0;sys_subsys_initcsubsusubsys_initcsubs	rc = cpuhp_setup_state_nocalls(CPUHP_NET_DEV_DEAD, "net/dev:dead",
-				       NULL, dev_cpu_dead);
-	WARN_ON(rc < 0);
-	rc = 	rc = 	rc = 0;sys_subsys	r	rc = 	rc = 0;sys_subsys	r	rc = 0;sys_subsys_initcsubsus	open_softirq(NET_RX_SOFTIRQ, net_rx_action);
+	rc = 0;
+out:
+	return rc;
+}
 
-	rc = cpuhp_setup_state_nocalls(CPUHP_NET_DEV_DEAD, "net/dev:dead",
-				       NULL, dev_cpu_dead);
-	WARN_ON(rc < 0);
-	rc = 	rc = 0;sys_su	r	rc = 	rc = 0	rc = 	rc = 0;sys_subsys	r	rc = 0;sys_subsys_initcsubsusubsys_initcsubsubsys_initcall(net_dev_	WARN_ON(rc < 0);
-	rc = 	rc = 0	rc = 	rc = 0;sys_subsys	r	rc 	rc = 	rc = 0;sys_subsys	r	rc = 0;sys_sub	rc = 	rc = 0;sys_subsys	r	rc = 0;sys_subsys_initcsubsusubsys_i	rc = 	rc = 0;sys_subsys	r		rc = 	rc = 0;sys_su	rc = 	rc = 0;sys_subsys	r	rc = 0;sys_subsys_initcsubsusubsys_initcsubsubsys_initcall(net_dev_init);
+subsys_initcall(net_dev_init);

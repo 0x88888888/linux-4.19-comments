@@ -3613,6 +3613,7 @@ err_out:
 	return -EBUSY;
 }
 
+
 /**
  *	pci_request_region - Reserve PCI I/O and memory resource
  *	@pdev: PCI device whose resources are to be reserved
@@ -6109,7 +6110,7 @@ static int __init pci_setup(char *str)
 				pci_cardbus_io_size = memparse(str + 9, &str);
 			} else if (!strncmp(str, "cbmemsize=", 10)) {
 				pci_cardbus_mem_size = memparse(str + 10, &str);
-	"resource_alignment=", 19)) {
+			} else if (!strncmp(str, "resource_alignment=", 19)) {
 				pci_set_resource_alignment_param(str + 19,
 							strlen(str + 19));
 			} else if (!strncmp(str, "ecrc=", 5)) {
@@ -6144,4 +6145,4 @@ static int __init pci_setup(char *str)
 	}
 	return 0;
 }
-early_early_param("pci", eaearly_param("pci", pci_setup);
+early_param("pci", pci_setup);

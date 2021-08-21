@@ -1921,7 +1921,13 @@ static int __init ipv4_offload_init(void)
 	if (tcpv4_offload_init() < 0)
 		pr_crit("%s: Cannot add TCP protocol offload\n", __func__);
 	if (ipip_offload_init() < 0)
-		pr_crit("%s: Cannot );
+		pr_crit("%s: Cannot add IPIP protocol offload\n", __func__);
+
+	dev_add_offload(&ip_packet_offload);
+	return 0;
+}
+
+fs_initcall(ipv4_offload_init);
 
 static struct packet_type ip_packet_type __read_mostly = {
 	.type = cpu_to_be16(ETH_P_IP),
@@ -2108,9 +2114,5 @@ static int __init ipv4_proc_init(void)
 {
 	return 0;
 }
-#endif /#else /* CONFIG_PROC_FS */
-static int __init ipv4_proc_init(void)
-{
-	return 0;
-}
-#endi#endif /* #endif /* CONFIG_PR#endif /* CONFIG_PROC_FS */
+#endif /* CONFIG_PROC_FS */
+

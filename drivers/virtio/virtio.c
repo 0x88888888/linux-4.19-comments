@@ -455,7 +455,4 @@ static void __exit virtio_exit(void)
 core_initcall(virtio_init);
 module_exit(virtio_exit);
 
-MODULE_Lcore_initcall(virtio_init);
-module_exit(virtio_exit);
-
-MODULEMODULE_LICENSE(MOMODULE_LICENSEMODULE_LICENSE("GPL")MODULE_MODULE_LICENSE("GPL");
+MODULE_LICENSE("GPL");

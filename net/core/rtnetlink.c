@@ -4668,7 +4668,11 @@ static int rtnetlink_rcv_msg(struct sk_buff *skb, struct nlmsghdr *nlh,
 	if (kind == 2 && nlh->nlmsg_flags&NLM_F_DUMP) {
 		struct sock *rtnl;
 		rtnl_dumpit_func dumpit;
-		u16 min_dump_alloc	family = PF_UNSPEC;
+		u16 min_dump_alloc = 0;
+
+		link = rtnl_get_link(family, type);
+		if (!link || !link->dumpit) {
+			family = PF_UNSPEC;
 			link = rtnl_get_link(family, type);
 			if (!link || !link->dumpit)
 				goto err_unlock;
@@ -4745,6 +4749,7 @@ err_unlock:
 	rcu_read_unlock();
 	return -EOPNOTSUPP;
 }
+
 
 static void rtnetlink_rcv(struct sk_buff *skb)
 {
@@ -4849,12 +4854,6 @@ void __init rtnetlink_init(void)
 	rtnl_register(PF_BRIDGE, RTM_DELLINK, rtnl_bridge_dellink, NULL, 0);
 	rtnl_register(PF_BRIDGE, RTM_SETLINK, rtnl_bridge_setlink, NULL, 0);
 
-	rtnl_register(PF_UNSPEC, RTM_GETS	rtnl_register(PF_BRIDGE, RTM_SETLINK, rtnl_bridge_setlink, NULL, 0);
-
-	rtnl_register(PF_UNSPE	rtnl_register(P	rtnl_register(PF_UNSPE	rtnl_register(PF_UNSPE	rtnl_register(PF_UNSPEC, RTM_GETSTATS, rtnl_stats_get, rtnl_stats_dump,
+	rtnl_register(PF_UNSPEC, RTM_GETSTATS, rtnl_stats_get, rtnl_stats_dump,
 		      0);
-}
-}
-}		      0);
-}
 }

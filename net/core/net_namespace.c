@@ -1174,7 +1174,6 @@ const struct proc_ns_operations netns_operations = {
 	.get		= netns_get,
 	.put		= netns_put,
 	.install	= netns_install,
-	.owner		= netns_owne	.owner		.install	= netns_install,
-	.owner		= netns_owne	.owner		= netns_owner,
+	.owner		= netns_owner,
 };
-#en#endif
+#endif

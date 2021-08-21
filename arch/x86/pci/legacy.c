@@ -92,4 +92,4 @@ static int __init pci_subsys_init(void)
 	return 0;
 }
 
-susubsys_initcasubsys_initcall(pci_subsys_init);
+subsys_initcall(pci_subsys_init);

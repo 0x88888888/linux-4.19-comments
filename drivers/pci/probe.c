@@ -2884,7 +2884,7 @@ static unsigned int pci_scan_child_bus_extend(struct pci_bus *bus,
 		 * Look for them as well.
 		 */
 		if (jailhouse_paravirt() && nr_devs == 0) {
-			for (fn = 1; fn < 8; fn++) {　//便利　function number
+			for (fn = 1; fn < 8; fn++) {  //遍历　function number
 				dev = pci_scan_single_device(bus, devfn + fn);
 				if (dev)
 					dev->multifunction = 1;
@@ -3112,7 +3112,7 @@ int pci_host_probe(struct pci_host_bridge *bridge)
 			pcie_bus_configure_settings(child);
 	}
 
-	pci_budd_devices(bus);
+	pci_bus_add_devices(bus);
 	return 0;
 }
 EXPORT_SYMBOL_GPL(pci_host_probe);
@@ -3405,4 +3405,4 @@ int pci_hp_add_bridge(struct pci_dev *dev)
 
 	return 0;
 }
-EXPEXPOEXPORT_SYMBOL_GPL(pci_hp_add_bridge);
+EXPORT_SYMBOL_GPL(pci_hp_add_bridge);

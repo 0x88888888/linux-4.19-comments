@@ -432,4 +432,3 @@ int __init pci_acpi_init(void)
 
 	return 0;
 }
-}
