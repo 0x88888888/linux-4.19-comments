@@ -1,0 +1,26 @@
+bootloader加载的内核文件，分为compressed和uncompressed两个部分，
+ 1.compressed包括编译出来的vmlinux文件
+ 2.uncompressed包括 启动时的实模式代码setup.elf(会被修改成setup.bin) 和进入保护模式后的
+
+
+
+内核make
+   1.make bzImage -j $(nproc)
+      只编译内核(setup.elf, setup.bin,vmlinux),不编译模块
+	  对应的 Makefile 定义在 arch/x86/Makefile
+   2.make 
+      编译内核(setup.elf, setup.bin,vmlinux),也编译模块
+
+1.带入make参数“-n”或“--just-print”，那么其只是显示命令，但不会执行命令，这个功能很有利于我们调试我们的Makefile
+
+2.make -p 现实隐式的预定义变量
+
+
+3.gcc -v
+  显示编译过程中的每一个步骤的详细信息
+
+
+
+
+
+

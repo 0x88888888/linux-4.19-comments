@@ -1,0 +1,9 @@
+#!/bin/sh
+#将 proc 文件系统挂载到 /proc 目录中
+mount -t proc none /proc
+#将 sys 文件系统挂载到 /sys 的目录上
+mount -t sys none /sys
+#mdev 是 busybox 自带的一个 udev ，它是用于系统启动和
+#热插拔或是动态加载驱动程序的时候，而自动产生设别节点的，
+#这句话如果不加上的话，这需要手动的 mknod 来挂载设备节点
+/sbin/mdev -s

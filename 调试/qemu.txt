@@ -1,0 +1,65 @@
+
+
+ubuntu14使用qemu调试linux内核
+https://www.cnblogs.com/pingandezhufu/p/4392297.html
+
+
+
+
+qemu选项:
+  -s qemu启动时,cpu暂停执行
+  -S 等待gdb远程链接上来
+  -kernel 内核文件
+  -initrd
+  -serial mon:stdio
+  -append "nokaslr console=ttyS0 earlyprintk"  
+      nokaslr:禁止内核的地址随机化
+	  console=ttyS0:
+	  earlyprintk==ttyS0:
+	  debug:
+  -enable-kvm 开启cpu的虚拟化功能
+  
+
+这个好用
+qemu-system-x86_64 -smp 2 -enable-kvm -serial mon:stdio -nographic -kernel arch/x86_64/boot/bzImage -append "nokaslr console=ttyS0 earlyprintk=ttyS0 debug" 
+
+qemu-system-x86_64 -s -S -smp 2 -enable-kvm -serial mon:stdio -nographic -kernel arch/x86_64/boot/bzImage -append "nokaslr console=ttyS0 earlyprintk=ttyS0 debug" 
+
+qemu-system-x86_64 -S -s -smp 2 -enable-kvm -serial mon:stdio -nographic -kernel arch/x86_64/boot/bzImage -initrd ../rootfs/rootfs.img.gz  -append "nokaslr root=/dev/ram console=ttyS0 rdinit=sbin/init"
+
+
+gdb客户端启动:
+ gdb vmlinux
+ 
+gdb内部:
+ target remote localhost:1234
+
+编译qemu时的配置选项:
+./configure --enable-kvm --enable-debug --enable-vnc --enable-werror --target-list=x86_64-softmmu,i386-softmmu
+用这个
+./configure --enable-kvm --enable-debug --enable-vnc --target-list=x86_64-softmmu,i386-softmmu
+
+
+
+qemu内存模型(3) 内存布局初始化
+https://blog.csdn.net/woai110120130/article/details/101615770
+
+QEMU源码分析系列
+https://blog.csdn.net/u011364612/category_6219019.html
+
+qemu如何实现面向对象模型QOM（代码讲解）
+https://blog.csdn.net/u011364612/article/details/53581411
+
+
+QEMU虚拟机源码分析概论
+https://blog.csdn.net/u011364612/article/details/53470925
+
+虚拟化
+https://blog.csdn.net/wanthelping/category_5682983.html
+
+
+
+
+
+
+

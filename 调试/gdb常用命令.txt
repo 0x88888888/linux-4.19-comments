@@ -1,0 +1,29 @@
+
+1.gdb链接到本地qemu上的linux
+   target remote localhost:1234
+   
+2.查看函数的汇编
+   disassemble function_name
+   
+3.调试时切换cpu的模式,才能下断点  
+  set architecture i8086
+  target remote localhost:1234
+  hb *0x7c00
+  
+  disconnect
+  set architecture i386
+  target remote localhost:1234
+  
+  disconnect
+  set architecture x86-64
+  target remote localhost:1234
+  
+   
+1.GDB+Qemu调试Linux代码
+  https://www.cnblogs.com/sinferwu/p/12614571.html   
+
+   
+   
+
+
+

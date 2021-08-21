@@ -1,0 +1,5 @@
+1.本地仓库和远程仓库关联
+  git remote add origin https://github.com/0x88888888/linux-4.19-debug.git
+
+ 
+ 
