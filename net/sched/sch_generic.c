@@ -1167,7 +1167,7 @@ void dev_activate(struct net_device *dev)
 	 */
 
 	if (dev->qdisc == &noop_qdisc)  //这一步很重要
-		attach_default_qdiscs(dev);　//丢掉noop_qdisc,重新创建Qdisc
+		attach_default_qdiscs(dev); //丢掉noop_qdisc,重新创建Qdisc
 
 	if (!netif_carrier_ok(dev))
 		/* Delay activation until next carrier-on event */
@@ -1388,7 +1388,7 @@ void dev_shutdown(struct net_device *dev)
 }
 
 void psched_ratecfg_precompute(struct psched_ratecfg *r,
-			       conspec *conf,
+			         const struct tc_ratespec  *conf,
 			       u64 rate64)
 {
 	memset(r, 0, sizeof(*r));
@@ -1469,4 +1469,4 @@ void mini_qdisc_pair_init(struct mini_Qdisc_pair *miniqp, struct Qdisc *qdisc,
 	miniqp->miniq2.cpu_qstats = qdisc->cpu_qstats;
 	miniqp->p_miniq = p_miniq;
 }
-EXPORT_SYMBOL(mEXEXPORT_SYMBOL(mini_qdisc_pair_init);
+EXPORT_SYMBOL(mini_qdisc_pair_init);

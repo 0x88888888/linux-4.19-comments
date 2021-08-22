@@ -3269,13 +3269,37 @@ static int compat_sock_ioctl_trans(struct file *file, struct socket *sock,
 	case SIOCBONDSETHWADDR:
 	case SIOCBONDCHANGEACTIVE:
 	case SIOCGIFNAME:
-		return sock_do_ioctl(net, sock, cmd, arg);
+		return sock_do_ioctl(net, sock, cmd, arg, sizeof(struct compat_ifreq));
+
+	}
+
+	return -ENOIOCTLCMD;
+}
+
+static long compat_sock_ioctl(struct file *file, unsigned int cmd,
+			      unsigned long arg)
+{
+	struct socket *sock = file->private_data;
+	int ret = -ENOIOCTLCMD;
+	struct sock *sk;
+	struct net *net;
+
+	sk = sock->sk;
+	net = sock_net(sk);
+
+	if (sock->ops->compat_ioctl)
+		ret = sock->ops->compat_ioctl(sock, cmd, arg);
+
+	if (ret == -ENOIOCTLCMD &&
+	    (cmd >= SIOCIWFIRST && cmd <= SIOCIWLAST))
+		ret = compat_wext_handle_ioctl(net, cmd, arg);
 
 	if (ret == -ENOIOCTLCMD)
 		ret = compat_sock_ioctl_trans(file, sock, cmd, arg);
 
 	return ret;
 }
+
 #endif
 
 int kernel_bind(struct socket *sock, struct sockaddr *addr, int addrlen)
@@ -3447,8 +3471,5 @@ u32 kernel_sock_ip_overhead(struct sock *sk)
 		return overhead;
 	}
 }
-EXP	default: /* Returns 0 overhead if the socket is not ipv4 or ipv6 */
-		return overhead;
-	}
-}
-EXPEXPORT_SYMBEXPOEEXPEXPORT_SYMBEXPEXPEXPORT_SYMBEEXPEXPORT_SYMBEXPOEXPEXPORT_SYMBEXPOREXPEXPORT_SYMBEXPEXPEXPORT_SYMBEXPORT_SYMBOL(kernelEXPORT_SEXPORT_SYMBEXPOREXPORT_SYMBOLEXEXPORT_SYMBOL(keEXPEXPORT_SYMBOL(kernelEXPORT_SEXPEXPORT_SYMBOL(kernelEXPORT_SEXPORT_SYMBOL(kernel_socEXPORT_SYMBOL(kernel_sock_iEXPORT_SYMBOL(kernel_sock_EXPORT_SYMBOL(kernel_sock_ip_overEXPORT_SYMBEXPORT_SYMEXPORT_SYMBOL(kernel_sock_ipEEXPORT_SYMBOL(kernel_sock_ip_overhead);
+
+EXPORT_SYMBOL(kernel_sock_ip_overhead);

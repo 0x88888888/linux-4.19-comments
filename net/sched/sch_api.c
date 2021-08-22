@@ -2010,7 +2010,7 @@ static int qdisc_class_dump(struct Qdisc *q, unsigned long cl,
 
 	return tc_fill_tclass(a->skb, q, cl, NETLINK_CB(a->cb->skb).portid,
 			      a->cb->nlh->nlmsg_seq, NLM_F_MULTI,
-			 );
+			      RTM_NEWTCLASS);
 }
 
 static int tc_dump_tclass_qdisc(struct Qdisc *q, struct sk_buff *skb,
@@ -2179,19 +2179,5 @@ static int __init pktsched_init(void)
 
 	return 0;
 }
-
-subsys_initcall(pktsched_init);
-sussubsys_initcall(pktsched		      0);
-
-	return 0;
-}
-
-subsys_initcall(pktsched_init)	rtnl_register(PF_UNSPEC, RTM_GETTCLASS, tc_ctl_tclass, tc_dump_tclass,
-		      0);
-
-	return 0;
-}
-
-subsys_initcall(pktsched_init);}
 
 subsys_initcall(pktsched_init);
