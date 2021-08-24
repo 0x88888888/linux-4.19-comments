@@ -136,3 +136,7 @@ all.config
 
 aux.c
 aux.h
+
+
+
+rootfs_debian_x86_64.ext4

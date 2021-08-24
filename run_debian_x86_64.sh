@@ -120,7 +120,7 @@ build_rootfs(){
 			rm -rf $rootfs_path
 		fi
 }
-
+<<!
 run_qemu_debian(){
 		qemu-system-x86_64 -m 1024 \
 			-enable-kvm \
@@ -136,6 +136,22 @@ run_qemu_debian(){
 			$DBG
 
 }
+!
+
+run_qemu_debian(){
+		qemu-system-x86_64 -m 1024 \
+			-nographic $SMP -kernel arch/x86/boot/bzImage \
+			-append "noinintrd console=ttyS0 crashkernel=256M root=/dev/vda rootfstype=ext4 rw loglevel=8" \
+			-drive if=none,file=rootfs_debian_x86_64.ext4,id=hd0 \
+			-device virtio-blk-pci,drive=hd0 \
+			-netdev user,id=mynet\
+			-device virtio-net-pci,netdev=mynet\
+			--fsdev local,id=kmod_dev,path=./kmodules,security_model=none \
+			-device virtio-9p-pci,fsdev=kmod_dev,mount_tag=kmod_mount\
+			$DBG
+
+}
+
 
 case $1 in
 	build_kernel)
